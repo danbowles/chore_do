@@ -56,4 +56,58 @@ defmodule ChoreDo.HouseholdsTest do
       assert %Ecto.Changeset{} = Households.change_household(household)
     end
   end
+
+  describe "members" do
+    alias ChoreDo.Households.Member
+
+    import ChoreDo.HouseholdsFixtures
+
+    @invalid_attrs %{role: nil}
+
+    test "list_members/0 returns all members" do
+      member = member_fixture()
+      assert Households.list_members() == [member]
+    end
+
+    test "get_member!/1 returns the member with given id" do
+      member = member_fixture()
+      assert Households.get_member!(member.id) == member
+    end
+
+    test "create_member/1 with valid data creates a member" do
+      valid_attrs = %{role: :admin}
+
+      assert {:ok, %Member{} = member} = Households.create_member(valid_attrs)
+      assert member.role == :admin
+    end
+
+    test "create_member/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Households.create_member(@invalid_attrs)
+    end
+
+    test "update_member/2 with valid data updates the member" do
+      member = member_fixture()
+      update_attrs = %{role: :member}
+
+      assert {:ok, %Member{} = member} = Households.update_member(member, update_attrs)
+      assert member.role == :member
+    end
+
+    test "update_member/2 with invalid data returns error changeset" do
+      member = member_fixture()
+      assert {:error, %Ecto.Changeset{}} = Households.update_member(member, @invalid_attrs)
+      assert member == Households.get_member!(member.id)
+    end
+
+    test "delete_member/1 deletes the member" do
+      member = member_fixture()
+      assert {:ok, %Member{}} = Households.delete_member(member)
+      assert_raise Ecto.NoResultsError, fn -> Households.get_member!(member.id) end
+    end
+
+    test "change_member/1 returns a member changeset" do
+      member = member_fixture()
+      assert %Ecto.Changeset{} = Households.change_member(member)
+    end
+  end
 end

@@ -17,4 +17,18 @@ defmodule ChoreDo.HouseholdsFixtures do
 
     household
   end
+
+  @doc """
+  Generate a member.
+  """
+  def member_fixture(attrs \\ %{}) do
+    {:ok, member} =
+      attrs
+      |> Enum.into(%{
+        role: :admin
+      })
+      |> ChoreDo.Households.create_member()
+
+    member
+  end
 end

@@ -22,12 +22,21 @@ defmodule ChoreDoWeb.Router do
 
     get "/", PageController, :home
 
+    # Households Live
     live "/households", HouseholdLive.Index, :index
     live "/households/new", HouseholdLive.Index, :new
     live "/households/:id/edit", HouseholdLive.Index, :edit
 
     live "/households/:id", HouseholdLive.Show, :show
     live "/households/:id/show/edit", HouseholdLive.Show, :edit
+
+    # Members Live
+    live "/members", MemberLive.Index, :index
+    live "/members/new", MemberLive.Index, :new
+    live "/members/:id/edit", MemberLive.Index, :edit
+
+    live "/members/:id", MemberLive.Show, :show
+    live "/members/:id/show/edit", MemberLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

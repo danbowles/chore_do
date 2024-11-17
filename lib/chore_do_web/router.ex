@@ -21,6 +21,13 @@ defmodule ChoreDoWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    live "/households", HouseholdLive.Index, :index
+    live "/households/new", HouseholdLive.Index, :new
+    live "/households/:id/edit", HouseholdLive.Index, :edit
+
+    live "/households/:id", HouseholdLive.Show, :show
+    live "/households/:id/show/edit", HouseholdLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.

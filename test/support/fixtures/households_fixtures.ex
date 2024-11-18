@@ -4,6 +4,8 @@ defmodule ChoreDo.HouseholdsFixtures do
   entities via the `ChoreDo.Households` context.
   """
 
+  def unique_household_name, do: "household number #{System.unique_integer()}"
+
   @doc """
   Generate a household.
   """
@@ -11,7 +13,7 @@ defmodule ChoreDo.HouseholdsFixtures do
     {:ok, household} =
       attrs
       |> Enum.into(%{
-        name: "some name"
+        name: unique_household_name()
       })
       |> ChoreDo.Households.create_household()
 
@@ -21,14 +23,15 @@ defmodule ChoreDo.HouseholdsFixtures do
   @doc """
   Generate a member.
   """
-  def member_fixture(attrs \\ %{}) do
-    {:ok, member} =
-      attrs
-      |> Enum.into(%{
-        role: :admin
-      })
-      |> ChoreDo.Households.create_member()
+  def member_fixture(user, household, attrs \\ %{}) do
+    default_attrs = %{
+      role: :member
+    }
 
-    member
+    attrs = Enum.into(attrs, default_attrs)
+
+    {:ok, member} = ChoreDo.Households.add_member(user.id, household, attrs)
+
+    member |> ChoreDo.Repo.preload([:user, :household])
   end
 end

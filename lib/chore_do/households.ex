@@ -7,6 +7,7 @@ defmodule ChoreDo.Households do
   alias ChoreDo.Repo
 
   alias ChoreDo.Households.Household
+  alias ChoreDo.Households.Member
 
   @doc """
   Returns the list of households.
@@ -19,6 +20,41 @@ defmodule ChoreDo.Households do
   """
   def list_households do
     Repo.all(Household)
+  end
+
+  @doc """
+  Creates a member, adds to household
+
+  ## Examples
+
+      iex> add_member(user_id, %ChoreDo.Households.Household{},%{field: value})
+      {:ok, %Member{}}
+
+      iex> add_member(user_id, %ChoreDo.Households.Household{},%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def add_member(user_id, %ChoreDo.Households.Household{} = household, attrs \\ %{}) do
+    if is_nil(member_from_user(user_id)) do
+      %Member{user_id: user_id, household_id: household.id, role: :admin}
+      |> Member.changeset(attrs)
+      |> Repo.insert()
+    else
+      {:error, :already_member}
+    end
+  end
+
+  @doc """
+  Returns a member from a given user.
+
+  ## Examples
+
+    iex> member_from_user(user_id)
+    {:ok, %Member{}}
+
+  """
+  def member_from_user(user_id) do
+    Repo.get_by(Member, user_id: user_id) |> Repo.preload(:user)
   end
 
   @doc """
@@ -102,8 +138,6 @@ defmodule ChoreDo.Households do
     Household.changeset(household, attrs)
   end
 
-  alias ChoreDo.Households.Member
-
   @doc """
   Returns the list of members.
 
@@ -135,6 +169,7 @@ defmodule ChoreDo.Households do
 
   @doc """
   Creates a member.
+  TODO: Remove as we will not directly create members like this
 
   ## Examples
 

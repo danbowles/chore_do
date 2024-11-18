@@ -8,6 +8,8 @@ defmodule ChoreDo.Users.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    has_many :members, ChoreDo.Households.Member
+    has_many :households, through: [:members, :household]
 
     timestamps(type: :utc_datetime)
   end

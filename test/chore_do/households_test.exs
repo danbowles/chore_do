@@ -35,7 +35,9 @@ defmodule ChoreDo.HouseholdsTest do
       household = household_fixture()
       update_attrs = %{name: "some updated name"}
 
-      assert {:ok, %Household{} = household} = Households.update_household(household, update_attrs)
+      assert {:ok, %Household{} = household} =
+               Households.update_household(household, update_attrs)
+
       assert household.name == "some updated name"
     end
 
@@ -61,32 +63,54 @@ defmodule ChoreDo.HouseholdsTest do
     alias ChoreDo.Households.Member
 
     import ChoreDo.HouseholdsFixtures
+    import ChoreDo.UsersFixtures
 
     @invalid_attrs %{role: nil}
 
     test "list_members/0 returns all members" do
-      member = member_fixture()
-      assert Households.list_members() == [member]
+      user = user_fixture()
+      household = household_fixture()
+      member = member_fixture(user, household)
+      assert Households.list_members() |> Enum.map(& &1.id) == [member.id]
     end
 
     test "get_member!/1 returns the member with given id" do
-      member = member_fixture()
-      assert Households.get_member!(member.id) == member
+      user = user_fixture()
+      household = household_fixture()
+      member = member_fixture(user, household)
+
+      assert Households.get_member!(member.id) |> ChoreDo.Repo.preload([:user, :household]) ==
+               member
     end
 
-    test "create_member/1 with valid data creates a member" do
+    test "add_member/3 with valid data creates a member" do
       valid_attrs = %{role: :admin}
+      user = user_fixture()
+      household = household_fixture()
 
-      assert {:ok, %Member{} = member} = Households.create_member(valid_attrs)
+      assert {:ok, %Member{} = member} = Households.add_member(user.id, household, valid_attrs)
       assert member.role == :admin
     end
 
-    test "create_member/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Households.create_member(@invalid_attrs)
+    # TODO: Unsure how to handle newly-created households right now.
+    test "add_member/3 when household has no admins fails" do
+    end
+
+    test "add_member/3 when that user already has a member fails" do
+      user = user_fixture()
+      household_1 = household_fixture()
+      household_2 = household_fixture()
+
+      assert {:ok, %Member{}} = Households.add_member(user.id, household_1, %{role: :admin})
+
+      assert {:error, :already_member} =
+               Households.add_member(user.id, household_2, %{role: :admin})
     end
 
     test "update_member/2 with valid data updates the member" do
-      member = member_fixture()
+      user = user_fixture()
+      household = household_fixture()
+      member = member_fixture(user, household)
       update_attrs = %{role: :member}
 
       assert {:ok, %Member{} = member} = Households.update_member(member, update_attrs)
@@ -94,19 +118,27 @@ defmodule ChoreDo.HouseholdsTest do
     end
 
     test "update_member/2 with invalid data returns error changeset" do
-      member = member_fixture()
+      user = user_fixture()
+      household = household_fixture()
+      member = member_fixture(user, household)
       assert {:error, %Ecto.Changeset{}} = Households.update_member(member, @invalid_attrs)
-      assert member == Households.get_member!(member.id)
+
+      assert member ==
+               Households.get_member!(member.id) |> ChoreDo.Repo.preload([:user, :household])
     end
 
     test "delete_member/1 deletes the member" do
-      member = member_fixture()
+      user = user_fixture()
+      household = household_fixture()
+      member = member_fixture(user, household)
       assert {:ok, %Member{}} = Households.delete_member(member)
       assert_raise Ecto.NoResultsError, fn -> Households.get_member!(member.id) end
     end
 
     test "change_member/1 returns a member changeset" do
-      member = member_fixture()
+      user = user_fixture()
+      household = household_fixture()
+      member = member_fixture(user, household)
       assert %Ecto.Changeset{} = Households.change_member(member)
     end
   end

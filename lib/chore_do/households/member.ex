@@ -4,8 +4,8 @@ defmodule ChoreDo.Households.Member do
 
   schema "members" do
     field :role, Ecto.Enum, values: [:admin, :member, :viewer]
-    field :user_id, :id
-
+    belongs_to :user, ChoreDo.Users.User
+    belongs_to :household, ChoreDo.Households.Household
     timestamps(type: :utc_datetime)
   end
 
@@ -13,6 +13,7 @@ defmodule ChoreDo.Households.Member do
   def changeset(member, attrs) do
     member
     |> cast(attrs, [:role])
-    |> validate_required([:role])
+    |> validate_required([:role, :household_id, :user_id])
+    |> unique_constraint(:user_id, name: :members_user_id_household_id_index)
   end
 end

@@ -1,5 +1,5 @@
 defmodule ChoreDoWeb.CoreComponents do
-  use Gettext, backend: ChoreDo.Gettext
+  use Gettext, backend: ChoreDoWeb.Gettext
 
   @moduledoc """
   Provides core UI components.

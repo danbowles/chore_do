@@ -97,7 +97,7 @@ defmodule ChoreDo.UsersTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Users.change_user_registration(%User{})
-      assert changeset.required == [:password, :email]
+      assert changeset.required == [:password, :email, :first_name, :last_name]
     end
 
     test "allows fields to be set" do

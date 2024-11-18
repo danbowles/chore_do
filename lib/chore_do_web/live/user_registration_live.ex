@@ -33,6 +33,8 @@ defmodule ChoreDoWeb.UserRegistrationLive do
 
         <.input field={@form[:email]} type="email" label="Email" required />
         <.input field={@form[:password]} type="password" label="Password" required />
+        <.input field={@form[:first_name]} label="First name" required />
+        <.input field={@form[:last_name]} label="Last name" required />
 
         <:actions>
           <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>

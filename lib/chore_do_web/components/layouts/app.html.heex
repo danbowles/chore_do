@@ -1,4 +1,91 @@
-<header class="px-4 sm:px-6 lg:px-8">
+<div class="flex h-screen overflow-hidden">
+  <aside class="absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-slate-800 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 -translate-x-full">
+    <div class="flex items-center justify-between gap-2 p-6">
+      <div class="flex items-center">
+        <img src={~p"/images/logo.svg"} alt="ChoreDo Logo" class="h-8 w-8" />
+        <span class="ml-2 text-lg font-bold text-gray-300">ChoreDo</span>
+      </div>
+    </div>
+    <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
+      <!-- Sidebar Menu -->
+      <nav
+        class="mt-5 px-4 py-4 lg:mt-9 lg:px-6 text-gray-200"
+        x-data="{selected: $persist('Dashboard')}"
+      >
+        <!-- Navigation Group -->
+        <div>
+          <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">Navigation</h3>
+
+          <ul class="mb-6 flex flex-col gap-1.5">
+            <li>
+              <a
+                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
+                href="#"
+              >
+                <.icon name="hero-home" class="h-5 w-5" /> Home
+              </a>
+            </li>
+            <li>
+              <a
+                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
+                href="#"
+              >
+                <.icon name="hero-user-circle" class="h-5 w-5" />Profile
+              </a>
+            </li>
+            <li>
+              <a
+                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
+                href="#"
+              >
+                <.icon name="hero-adjustments-horizontal" class="h-5 w-5" />Settings
+              </a>
+            </li>
+            <li>
+              <a
+                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
+                href="#"
+              >
+                <.icon name="hero-bell" class="h-5 w-5" /> Notifications
+              </a>
+            </li>
+            <li>
+              <a
+                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
+                href="#"
+              >
+                <.icon name="hero-arrow-left-end-on-rectangle" class="h-5 w-5" /> Logout
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </aside>
+  <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
+    <header class="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+      <div class="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
+        <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
+          <p>Sup 1</p>
+        </div>
+        <div class="hidden sm:block">
+          <p>Sup 2</p>
+        </div>
+        <div class="flex items-center gap-3 2xsm:gap-7">
+          <p>Sup 3</p>
+        </div>
+      </div>
+    </header>
+    <main>
+      <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
+        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 b">
+          <p>Sup 4</p>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<%!-- <header class="px-4 sm:px-6 lg:px-8">
   <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
     <div class="flex items-center gap-4">
       <a href="/">
@@ -29,4 +116,5 @@
     <.flash_group flash={@flash} />
     <%= @inner_content %>
   </div>
-</main>
+</main> --%>
+<.flash_group flash={@flash} />

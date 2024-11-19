@@ -3,7 +3,7 @@ defmodule ChoreDo.Households.Member do
   import Ecto.Changeset
 
   schema "members" do
-    field :role, Ecto.Enum, values: [:admin, :member, :viewer]
+    field :role, Ecto.Enum, values: [:owner, :admin, :member, :viewer]
     belongs_to :user, ChoreDo.Users.User
     belongs_to :household, ChoreDo.Households.Household
     timestamps(type: :utc_datetime)

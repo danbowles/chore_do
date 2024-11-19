@@ -11,4 +11,8 @@ defmodule ChoreDoWeb.Layouts do
   use ChoreDoWeb, :html
 
   embed_templates "layouts/*"
+
+  @spec page_title(String.t() | nil) :: String.t()
+  def page_title(nil), do: "ChoreDo"
+  def page_title(title), do: title
 end

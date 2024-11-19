@@ -17,27 +17,25 @@ defmodule ChoreDoWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ChoreDoWeb do
-    pipe_through :browser
+  # scope "/", ChoreDoWeb do
+  #   pipe_through :browser
 
-    get "/", PageController, :home
+  #   get "/", PageController, :home
 
-    # Households Live
-    live "/households", HouseholdLive.Index, :index
-    live "/households/new", HouseholdLive.Index, :new
-    live "/households/:id/edit", HouseholdLive.Index, :edit
+  #   live "/households", HouseholdLive.Index, :index
+  #   live "/households/new", HouseholdLive.Index, :new
+  #   live "/households/:id/edit", HouseholdLive.Index, :edit
 
-    live "/households/:id", HouseholdLive.Show, :show
-    live "/households/:id/show/edit", HouseholdLive.Show, :edit
+  #   live "/households/:id", HouseholdLive.Show, :show
+  #   live "/households/:id/show/edit", HouseholdLive.Show, :edit
 
-    # Members Live
-    live "/members", MemberLive.Index, :index
-    live "/members/new", MemberLive.Index, :new
-    live "/members/:id/edit", MemberLive.Index, :edit
+  #   live "/members", MemberLive.Index, :index
+  #   live "/members/new", MemberLive.Index, :new
+  #   live "/members/:id/edit", MemberLive.Index, :edit
 
-    live "/members/:id", MemberLive.Show, :show
-    live "/members/:id/show/edit", MemberLive.Show, :edit
-  end
+  #   live "/members/:id", MemberLive.Show, :show
+  #   live "/members/:id/show/edit", MemberLive.Show, :edit
+  # end
 
   # Other scopes may use custom stacks.
   # scope "/api", ChoreDoWeb do
@@ -67,6 +65,7 @@ defmodule ChoreDoWeb.Router do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
     live_session :redirect_if_user_is_authenticated,
+      layout: {ChoreDoWeb.Layouts, :user_auth},
       on_mount: [{ChoreDoWeb.UserAuth, :redirect_if_user_is_authenticated}] do
       live "/users/register", UserRegistrationLive, :new
       live "/users/log_in", UserLoginLive, :new
@@ -80,10 +79,26 @@ defmodule ChoreDoWeb.Router do
   scope "/", ChoreDoWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+    get "/", PageController, :home
+
     live_session :require_authenticated_user,
       on_mount: [{ChoreDoWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      live "/households", HouseholdLive.Index, :index
+      live "/households/new", HouseholdLive.Index, :new
+      live "/households/:id/edit", HouseholdLive.Index, :edit
+
+      live "/households/:id", HouseholdLive.Show, :show
+      live "/households/:id/show/edit", HouseholdLive.Show, :edit
+
+      live "/members", MemberLive.Index, :index
+      live "/members/new", MemberLive.Index, :new
+      live "/members/:id/edit", MemberLive.Index, :edit
+
+      live "/members/:id", MemberLive.Show, :show
+      live "/members/:id/show/edit", MemberLive.Show, :edit
     end
   end
 

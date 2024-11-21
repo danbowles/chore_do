@@ -4,6 +4,7 @@ defmodule ChoreDo.Households.Household do
 
   schema "households" do
     field :name, :string
+    has_many :members, ChoreDo.Households.Member
 
     timestamps(type: :utc_datetime)
   end

@@ -4,19 +4,9 @@
     <div class="flex items-center gap-x-3">
       <p>Avatar</p>
 
-      <h1 class="flex gap-x-3 text-base leading-7">
-        <span class="font-semibold text-gray-700">HouseHoldName?</span>
-        <span class="text-gray-300">/</span>
-        <span class="text-gray-700">@slug?</span>
-      </h1>
+      <h1 class="flex gap-x-3 text-base leading-7">ChoreDo: Helping you get things done</h1>
     </div>
-
-    <%!-- <p class="mt-2 text-xs leading-6 text-gray-500"><%= @host %></p> --%>
   </div>
-
-  <%!-- <div class="bg-indigo-400/10 ring-indigo-400/30 order-first flex-none rounded-full px-2 py-1 text-xs font-medium text-indigo-400 ring-1 ring-inset sm:order-none">
-    <%= if @school.public?, do: dgettext("orgs", "Public"), else: dgettext("orgs", "Private") %>
-  </div> --%>
 </header>
 
 <dl class="border-gray-900/10 grid grid-cols-1 border-b bg-white sm:grid-cols-3">
@@ -32,3 +22,19 @@
     </dd>
   </div> --%>
 </dl>
+<%= if @current_user do %>
+  <span class="text-[0.8125rem] font-bold">Hi, <%= @current_user.email %>!</span>
+  <.link href={~p"/users/settings"} class="text-[0.8125rem] leading-6 font-semibold">
+    Settings
+  </.link>
+  <.link href={~p"/users/log_out"} method="delete" class="text-[0.8125rem] leading-6">
+    Log out
+  </.link>
+<% else %>
+  <.link href={~p"/users/register"} class="text-[0.8125rem] leading-6 font-semibolds  ">
+    Register
+  </.link>
+  <.link href={~p"/users/log_in"} class="text-[0.8125rem] leading-6 font-semibold">
+    Log in
+  </.link>
+<% end %>

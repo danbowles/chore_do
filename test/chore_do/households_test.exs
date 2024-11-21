@@ -2,6 +2,7 @@ defmodule ChoreDo.HouseholdsTest do
   use ChoreDo.DataCase
 
   alias ChoreDo.Households
+  import ChoreDo.UsersFixtures
 
   describe "households" do
     alias ChoreDo.Households.Household
@@ -29,6 +30,36 @@ defmodule ChoreDo.HouseholdsTest do
 
     test "create_household/1 with invalid data returns error changeset" do
       assert {:error, %Ecto.Changeset{}} = Households.create_household(@invalid_attrs)
+    end
+
+    test "create_household_with_admin/2 should create a household with an admin" do
+      user = user_fixture()
+      valid_attrs = %{name: "some name"}
+
+      assert {:ok, %Household{} = household} =
+               Households.create_household_with_admin(user, valid_attrs)
+
+      household = household |> ChoreDo.Repo.preload(:members)
+
+      assert household.name == "some name"
+      assert household.members |> Enum.map(& &1.role) == [:admin]
+      assert household.members |> Enum.map(& &1.user_id) == [user.id]
+    end
+
+    test "create_household_with_admin/2 user cannot create a household if they are already a member of a household" do
+      user = user_fixture()
+      valid_attrs = %{name: "some name"}
+
+      {:ok, %Household{}} =
+        Households.create_household_with_admin(user, valid_attrs)
+
+      assert {:error, :already_member} = Households.create_household_with_admin(user, valid_attrs)
+
+      # household = household |> ChoreDo.Repo.preload(:members)
+
+      # assert household.name == "some name"
+      # assert household.members |> Enum.map(& &1.role) == [:admin]
+      # assert household.members |> Enum.map(& &1.user_id) == [user.id]
     end
 
     test "update_household/2 with valid data updates the household" do
@@ -63,7 +94,6 @@ defmodule ChoreDo.HouseholdsTest do
     alias ChoreDo.Households.Member
 
     import ChoreDo.HouseholdsFixtures
-    import ChoreDo.UsersFixtures
 
     @invalid_attrs %{role: nil}
 

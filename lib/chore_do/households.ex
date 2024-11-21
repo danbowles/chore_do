@@ -74,6 +74,33 @@ defmodule ChoreDo.Households do
   def get_household!(id), do: Repo.get!(Household, id)
 
   @doc """
+  Create a household with a user as admin
+
+  ## Examples
+
+      iex> create_household_with_admin(user_id, %{field: value})
+      {:ok, %Household{}}
+
+      iex> create_household_with_admin(user_id, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+  """
+  def create_household_with_admin(user, attrs \\ %{}) do
+    Ecto.Multi.new()
+    |> Ecto.Multi.run(:create_household, fn _repo, _ ->
+      create_household(attrs)
+    end)
+    |> Ecto.Multi.run(:add_member, fn _repo, %{create_household: household} ->
+      add_member(user.id, household, %{role: :admin})
+    end)
+    |> Repo.transaction()
+    |> case do
+      {:ok, %{create_household: household}} -> {:ok, household}
+      {:error, :add_member, _changeset, _} -> {:error, :already_member}
+      {:error, :create_household, changeset, _} -> {:error, changeset}
+    end
+  end
+
+  @doc """
   Creates a household.
 
   ## Examples

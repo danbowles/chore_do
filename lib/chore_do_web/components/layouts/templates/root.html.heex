@@ -16,30 +16,6 @@
   </head>
 
   <body class="h-full antialiased bg-slate-200">
-    <%!-- <body class="flex flex-col min-h-screen bg-gray-100">
-    <header class="bg-blue-500 text-white p-4 flex justify-between items-center">
-      <div class="flex items-center gap-4 px-4 sm:px-6 lg:px-8">
-        <p class="text-lg font-bold">ChoreDo</p>
-      </div>
-      <div class="flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-        <%= if @current_user do %>
-          <span class="text-[0.8125rem] font-bold">Hi, <%= @current_user.first_name %>!</span>
-          <.link href={~p"/users/settings"} class="text-[0.8125rem] leading-6 font-semibold">
-            Settings
-          </.link>
-          <.link href={~p"/users/log_out"} method="delete" class="text-[0.8125rem] leading-6">
-            Log out
-          </.link>
-        <% else %>
-          <.link href={~p"/users/register"} class="text-[0.8125rem] leading-6 font-semibolds  ">
-            Register
-          </.link>
-          <.link href={~p"/users/log_in"} class="text-[0.8125rem] leading-6 font-semibold">
-            Log in
-          </.link>
-        <% end %>
-      </div>
-    </header> --%>
     <%= @inner_content %>
   </body>
 </html>

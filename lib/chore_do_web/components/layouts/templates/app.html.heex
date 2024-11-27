@@ -2,61 +2,34 @@
   <aside class="absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-slate-800 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 -translate-x-full">
     <div class="flex items-center justify-between gap-2 p-6">
       <div class="flex items-center">
-        <img src={~p"/images/logo.svg"} alt="ChoreDo Logo" class="h-8 w-8" />
+        <img src={~p"/images/chore_do.svg"} alt="ChoreDo Logo" class="h-12 w-12" />
         <span class="ml-2 text-lg font-bold text-gray-300">ChoreDo</span>
       </div>
     </div>
     <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
       <!-- Sidebar Menu -->
-      <nav
-        class="mt-5 px-4 py-4 lg:mt-9 lg:px-6 text-gray-200"
-        x-data="{selected: $persist('Dashboard')}"
-      >
+      <nav class="mt-5 px-4 py-4 lg:mt-9 lg:px-6 text-gray-200">
         <!-- Navigation Group -->
         <div>
           <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">Navigation</h3>
 
           <ul class="mb-6 flex flex-col gap-1.5">
-            <li>
-              <a
-                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
-                href="#"
-              >
-                <.icon name="hero-home" class="h-5 w-5" /> Home
-              </a>
-            </li>
-            <li>
-              <a
-                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
-                href="#"
-              >
-                <.icon name="hero-user-circle" class="h-5 w-5" />Profile
-              </a>
-            </li>
-            <li>
-              <a
-                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
-                href="#"
-              >
-                <.icon name="hero-adjustments-horizontal" class="h-5 w-5" />Settings
-              </a>
-            </li>
-            <li>
-              <a
-                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
-                href="#"
-              >
-                <.icon name="hero-bell" class="h-5 w-5" /> Notifications
-              </a>
-            </li>
-            <li>
-              <a
-                class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
-                href="#"
-              >
-                <.icon name="hero-arrow-left-end-on-rectangle" class="h-5 w-5" /> Logout
-              </a>
-            </li>
+            <.dashboard_menu_item icon_name="hero-home" href={~p"/"}>
+              Home
+            </.dashboard_menu_item>
+            <.dashboard_menu_item
+              icon_name="hero-adjustments-horizontal"
+              href={~p"/users/settings"}
+            >
+              Settings
+            </.dashboard_menu_item>
+            <.dashboard_menu_item
+              href={~p"/logout"}
+              icon_name="hero-arrow-left-end-on-rectangle"
+              method="delete"
+            >
+              Logout
+            </.dashboard_menu_item>
           </ul>
         </div>
       </nav>

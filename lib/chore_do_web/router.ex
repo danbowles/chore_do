@@ -20,7 +20,7 @@ defmodule ChoreDoWeb.Router do
   scope "/", ChoreDoWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    # get "/", PageController, :home
 
     live "/households", HouseholdLive.Index, :index
     live "/households/new", HouseholdLive.Index, :new
@@ -83,6 +83,7 @@ defmodule ChoreDoWeb.Router do
 
     live_session :require_authenticated_user,
       on_mount: [{ChoreDoWeb.UserAuth, :ensure_authenticated}] do
+      live "/", DashboardLive, :index
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
 
@@ -105,7 +106,7 @@ defmodule ChoreDoWeb.Router do
   scope "/", ChoreDoWeb do
     pipe_through [:browser]
 
-    delete "/users/log_out", UserSessionController, :delete
+    delete "/logout", UserSessionController, :delete
 
     live_session :current_user,
       on_mount: [{ChoreDoWeb.UserAuth, :mount_current_user}] do

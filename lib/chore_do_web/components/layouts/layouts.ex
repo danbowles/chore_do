@@ -10,7 +10,9 @@ defmodule ChoreDoWeb.Layouts do
   """
   use ChoreDoWeb, :html
 
-  embed_templates "layouts/*"
+  import ChoreDoWeb.Components.Layouts.DashboardMenuItem
+
+  embed_templates "templates/*"
 
   @spec page_title(String.t() | nil) :: String.t()
   def page_title(nil), do: "ChoreDo"

@@ -21,6 +21,16 @@ defmodule ChoreDo.HouseholdsTest do
       assert Households.get_household!(household.id) == household
     end
 
+    test "get_household_for_user/1 returns the household for the given user" do
+      user = user_fixture()
+      user_two = user_fixture()
+      household_one = household_fixture()
+      _member = member_fixture(user, household_one)
+
+      assert Households.get_household_for_user(user) == household_one
+      assert Households.get_household_for_user(user_two) == nil
+    end
+
     test "create_household/1 with valid data creates a household" do
       valid_attrs = %{name: "some name"}
 

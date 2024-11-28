@@ -20,8 +20,6 @@ defmodule ChoreDoWeb.Router do
   scope "/", ChoreDoWeb do
     pipe_through :browser
 
-    # get "/", PageController, :home
-
     live "/households", HouseholdLive.Index, :index
     live "/households/new", HouseholdLive.Index, :new
     live "/households/:id/edit", HouseholdLive.Index, :edit
@@ -68,18 +66,16 @@ defmodule ChoreDoWeb.Router do
       layout: {ChoreDoWeb.Layouts, :user_auth},
       on_mount: [{ChoreDoWeb.UserAuth, :redirect_if_user_is_authenticated}] do
       live "/users/register", UserRegistrationLive, :new
-      live "/users/log_in", UserLoginLive, :new
+      live "/login", UserLoginLive, :new
       live "/users/reset_password", UserForgotPasswordLive, :new
       live "/users/reset_password/:token", UserResetPasswordLive, :edit
     end
 
-    post "/users/log_in", UserSessionController, :create
+    post "/login", UserSessionController, :create
   end
 
   scope "/", ChoreDoWeb do
     pipe_through [:browser, :require_authenticated_user]
-
-    # get "/", PageController, :home
 
     live_session :require_authenticated_user,
       on_mount: [{ChoreDoWeb.UserAuth, :ensure_authenticated}] do

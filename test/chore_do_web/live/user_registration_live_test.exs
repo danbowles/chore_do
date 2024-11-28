@@ -50,9 +50,9 @@ defmodule ChoreDoWeb.UserRegistrationLiveTest do
       # Now do a logged in request and assert on the menu
       conn = get(conn, "/")
       response = html_response(conn, 200)
-      assert response =~ email
+      assert response =~ "Welcome to ChoreDo"
       assert response =~ "Settings"
-      assert response =~ "Log out"
+      assert response =~ "Logout"
     end
 
     test "renders errors for duplicated email", %{conn: conn} do
@@ -79,7 +79,7 @@ defmodule ChoreDoWeb.UserRegistrationLiveTest do
         lv
         |> element(~s|main a:fl-contains("Log in")|)
         |> render_click()
-        |> follow_redirect(conn, ~p"/users/log_in")
+        |> follow_redirect(conn, ~p"/login")
 
       assert login_html =~ "Log in"
     end

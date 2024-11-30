@@ -1,17 +1,31 @@
 <div class="flex h-screen overflow-hidden">
-  <aside class="absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-slate-800 duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0 -translate-x-full">
-    <div class="flex items-center justify-between gap-2 p-6">
-      <div class="flex items-center">
-        <img src={~p"/images/chore_do.svg"} alt="ChoreDo Logo" class="h-12 w-12" />
-        <span class="ml-2 text-lg font-bold text-gray-300">ChoreDo</span>
+  <aside class="app-sidebar absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden  duration-300 ease-linear bg-boxdark lg:static lg:translate-x-0 -translate-x-full">
+    <div class="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
+      <%!-- Header --%>
+      <div class="flex items-center gap-2">
+        <img
+          src={~p"/images/chore-do.svg"}
+          alt="ChoreDo Logo"
+          class="h-12 w-12 bg-slate-100 rounded-md border-primary border-2"
+        />
+        <span class="ml-2 text-2xl font-bold text-gray-100">Chore-Do</span>
       </div>
+      <button
+        class="block text-bodydark2 lg:hidden"
+        phx-click={
+          JS.add_class("-translate-x-full", to: ".app-sidebar")
+          |> JS.remove_class("translate-x-0", to: ".app-sidebar")
+        }
+      >
+        <.icon name="hero-arrow-left" class="w-8 h-8 block" />
+      </button>
     </div>
     <div class="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
       <!-- Sidebar Menu -->
       <nav class="mt-5 px-4 py-4 lg:mt-9 lg:px-6 text-gray-200">
         <!-- Navigation Group -->
         <div>
-          <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">Navigation</h3>
+          <h3 class="mb-4 ml-4 text-sm font-medium text-bodydark2">NAVIGATION</h3>
 
           <ul class="mb-6 flex flex-col gap-1.5">
             <.dashboard_menu_item icon_name="hero-home" href={~p"/"}>
@@ -35,17 +49,68 @@
       </nav>
     </div>
   </aside>
+  <%!-- CONTENT --%>
   <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-    <header class="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none">
+    <%!-- HEADER CONTENT --%>
+    <header class="sticky top-0 z-999 flex w-full bg-white drop-shadow-1">
       <div class="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
-          <p>Sup 1</p>
+          <button
+            class="block text-body outline outline-1 rounded-sm"
+            phx-click={JS.add_class("translate-x-0", to: ".app-sidebar")}
+          >
+            <.icon name="hero-bars-3" class="w-8 h-8 block" />
+          </button>
+          <.link class="block flex-shrink-0 lg:hidden" href={~p"/"}>
+            <img src={~p"/images/chore-do.svg"} alt="ChoreDo Logo" class="h-12 w-12" />
+          </.link>
         </div>
-        <div class="hidden sm:block">
-          <p>Sup 2</p>
-        </div>
-        <div class="flex items-center gap-3 2xsm:gap-7">
-          <p>Sup 3</p>
+        <div class="flex items-center gap-3 2xsm:gap-7 ml-auto">
+          <%!-- User area --%>
+          <div class="relative">
+            <a
+              href="#"
+              class="flex items-center gap-2"
+              phx-click={
+                JS.toggle(to: ".user-area-dropdown", display: "flex")
+                |> JS.toggle_class("rotate-180", to: ".user-area-toggle-icon")
+              }
+            >
+              <span class="hidden text-right lg:block">
+                <span class="block text-sm font-medium text-black">
+                  Thomas Anree
+                </span>
+                <span class="block text-xs font-light">UX Designer</span>
+              </span>
+              <.icon name="hero-user-circle" class="w-8 h-8 block" />
+              <.icon
+                name="hero-chevron-down"
+                class="user-area-toggle-icon w-6 h-6 hidden sm:block"
+              />
+            </a>
+            <%!-- Dropdown start --%>
+            <div class="user-area-dropdown absolute right-0 mt-4 w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default hidden">
+              <ul class="flex flex-col gap-5 border-b border-stroke px-6 py-7.5">
+                <li>
+                  <.link
+                    href={~p"/users/settings"}
+                    class="flex items-center gap-3.5 text-md font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+                  >
+                    <.icon name="hero-adjustments-horizontal" class="w-6 h-6" /> Settings
+                  </.link>
+                </li>
+                <li>
+                  <.link
+                    href={~p"/logout"}
+                    method="delete"
+                    class="flex items-center gap-3.5 text-md font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+                  >
+                    <.icon name="hero-arrow-left-end-on-rectangle" class="w-6 h-6" /> Logout
+                  </.link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </header>

@@ -97,7 +97,7 @@ defmodule ChoreDoWeb.UserResetPasswordLiveTest do
         |> render_click()
         |> follow_redirect(conn, ~p"/login")
 
-      assert conn.resp_body =~ "Log in"
+      assert conn.resp_body =~ "Sign In"
     end
 
     test "redirects to registration page when the Register button is clicked", %{
@@ -112,7 +112,7 @@ defmodule ChoreDoWeb.UserResetPasswordLiveTest do
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
-      assert conn.resp_body =~ "Register"
+      assert conn.resp_body =~ "Create account"
     end
   end
 end

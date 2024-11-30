@@ -1,10 +1,12 @@
-<header class="flex items-center justify-between p-4 sm:px-6 lg:px-8">
-  <.link href={~p"/"}>
-    ChoreDo
-  </.link>
-</header>
-
-<main class="p-4 sm:px-6 lg:px-8">
+<main>
   <.flash_group flash={@flash} />
-  <%= @inner_content %>
+  <div class="mx-auto max-w-screen-sm p-10">
+    <div class="rounded-sm border border-stroke bg-white shadow-default">
+      <div class="w-full border-stroke border-l-2">
+        <div class="w-full p-4 sm:p-12.5 xl:p-17.5">
+          <%= @inner_content %>
+        </div>
+      </div>
+    </div>
+  </div>
 </main>

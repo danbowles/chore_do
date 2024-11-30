@@ -233,8 +233,7 @@ defmodule ChoreDoWeb.CoreComponents do
     <button
       type={@type}
       class={[
-        "phx-submit-loading:opacity-75 rounded-lg bg-zinc-900 hover:bg-zinc-700 py-2 px-3",
-        "text-sm font-semibold leading-6 text-white active:text-white/80",
+        "phx-submit-loading:opacity-75 w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 font-medium text-white transition hover:bg-opacity-90",
         @class
       ]}
       {@rest}
@@ -312,7 +311,7 @@ defmodule ChoreDoWeb.CoreComponents do
 
     ~H"""
     <div>
-      <label class="flex items-center gap-4 text-sm leading-6 text-zinc-600">
+      <label class="flex items-center gap-4 leading-6 text-zinc-600 cursor-pointer">
         <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
         <input
           type="checkbox"
@@ -320,7 +319,7 @@ defmodule ChoreDoWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="rounded border-zinc-300 text-zinc-900 focus:ring-0"
+          class="rounded border-zinc-300 text-primary focus:ring-0"
           {@rest}
         />
         <%= @label %>
@@ -371,7 +370,7 @@ defmodule ChoreDoWeb.CoreComponents do
   # All other inputs text, datetime-local, url, password, etc. are handled here...
   def input(assigns) do
     ~H"""
-    <div>
+    <div class="mb-4">
       <.label for={@id}><%= @label %></.label>
       <input
         type={@type}
@@ -379,7 +378,7 @@ defmodule ChoreDoWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          "mt-2 block w-full rounded-lg text-zinc-900 focus:ring-0 sm:text-sm sm:leading-6",
+          "w-full rounded-lg border border-stroke bg-transparent py-4 px-6 outline-none focus:border-primary focus-visible:shadow-none",
           @errors == [] && "border-zinc-300 focus:border-zinc-400",
           @errors != [] && "border-rose-400 focus:border-rose-400"
         ]}
@@ -398,7 +397,7 @@ defmodule ChoreDoWeb.CoreComponents do
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="block text-sm font-semibold leading-6 text-zinc-800">
+    <label for={@for} class="mb-2.5 block font-medium text-black">
       <%= render_slot(@inner_block) %>
     </label>
     """

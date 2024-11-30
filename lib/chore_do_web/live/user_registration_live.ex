@@ -6,40 +6,40 @@ defmodule ChoreDoWeb.UserRegistrationLive do
 
   def render(assigns) do
     ~H"""
-    <div class="mx-auto max-w-sm">
-      <.header class="text-center">
-        Register for an account
-        <:subtitle>
-          Already registered?
-          <.link navigate={~p"/login"} class="font-semibold text-brand hover:underline">
-            Log in
-          </.link>
-          to your account now.
-        </:subtitle>
-      </.header>
+    <.header class="text-center">
+      <div class="flex justify-center">
+        <img src={~p"/images/chore-do.svg"} alt="ChoreDo Logo" class="h-24 w-24" />
+      </div>
+      <h2 class="mb-9 text-2xl font-bold text-black  sm:text-title-xl2">Sign Up for Chore-Do</h2>
+    </.header>
 
-      <.simple_form
-        for={@form}
-        id="registration_form"
-        phx-submit="save"
-        phx-change="validate"
-        phx-trigger-action={@trigger_submit}
-        action={~p"/login?_action=registered"}
-        method="post"
-      >
-        <.error :if={@check_errors}>
-          Oops, something went wrong! Please check the errors below.
-        </.error>
+    <.simple_form
+      for={@form}
+      id="registration_form"
+      phx-submit="save"
+      phx-change="validate"
+      phx-trigger-action={@trigger_submit}
+      action={~p"/login?_action=registered"}
+      method="post"
+    >
+      <.error :if={@check_errors}>
+        Oops, something went wrong! Please check the errors below.
+      </.error>
 
-        <.input field={@form[:email]} type="email" label="Email" required />
-        <.input field={@form[:password]} type="password" label="Password" required />
-        <.input field={@form[:first_name]} label="First name" required />
-        <.input field={@form[:last_name]} label="Last name" required />
+      <.input field={@form[:email]} type="email" label="Email" required />
+      <.input field={@form[:password]} type="password" label="Password" required />
+      <.input field={@form[:first_name]} label="First name" required />
+      <.input field={@form[:last_name]} label="Last name" required />
 
-        <:actions>
-          <.button phx-disable-with="Creating account..." class="w-full">Create an account</.button>
-        </:actions>
-      </.simple_form>
+      <:actions>
+        <.button phx-disable-with="Creating account..." class="w-full">Create account</.button>
+      </:actions>
+    </.simple_form>
+    <div class="text-center mt-6">
+      Already registered?
+      <.link navigate={~p"/login"} class=" text-primary hover:underline">
+        Sign in!
+      </.link>
     </div>
     """
   end

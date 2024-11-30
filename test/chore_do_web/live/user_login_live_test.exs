@@ -8,8 +8,8 @@ defmodule ChoreDoWeb.UserLoginLiveTest do
     test "renders log in page", %{conn: conn} do
       {:ok, _lv, html} = live(conn, ~p"/login")
 
-      assert html =~ "Log in"
-      assert html =~ "Sign up"
+      assert html =~ "Sign In"
+      assert html =~ "Sign up!"
       assert html =~ "Forgot your password?"
     end
 
@@ -63,11 +63,11 @@ defmodule ChoreDoWeb.UserLoginLiveTest do
 
       {:ok, _login_live, login_html} =
         lv
-        |> element(~s|main a:fl-contains("Sign up")|)
+        |> element(~s|main a:fl-contains("Sign up!")|)
         |> render_click()
         |> follow_redirect(conn, ~p"/users/register")
 
-      assert login_html =~ "Register"
+      assert login_html =~ "Sign Up"
     end
 
     test "redirects to forgot password page when the Forgot Password button is clicked", %{

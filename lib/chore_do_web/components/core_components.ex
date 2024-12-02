@@ -205,7 +205,7 @@ defmodule ChoreDoWeb.CoreComponents do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
       <%= render_slot(@inner_block, f) %>
-      <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
+      <div :for={action <- @actions} class="mt-5 flex items-center justify-between gap-6">
         <%= render_slot(action, f) %>
       </div>
     </.form>

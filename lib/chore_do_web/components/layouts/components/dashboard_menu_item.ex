@@ -11,6 +11,7 @@ defmodule ChoreDoWeb.Components.Layouts.DashboardMenuItem do
   slot :inner_block
 
   def dashboard_menu_item(assigns) do
+    # TODO: Active state
     ~H"""
     <li>
       <.link
@@ -21,12 +22,8 @@ defmodule ChoreDoWeb.Components.Layouts.DashboardMenuItem do
           <.icon name={@icon_name} class="h-5 w-5" />
         <% end %>
         <%= render_slot(@inner_block) %>
-        <%!-- <.icon name="hero-adjustments-horizontal" class="h-5 w-5" />Settings --%>
       </.link>
     </li>
-    <%!-- <li aria-current={@active && "page"}>
-      <.link class={[@active && "text-indigo-600"]} {@rest}><%= render_slot(@inner_block) %></.link>
-    </li> --%>
     """
   end
 end

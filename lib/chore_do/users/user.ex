@@ -109,6 +109,15 @@ defmodule ChoreDo.Users.User do
   end
 
   @doc """
+  A user changeset for changing first and last name
+  """
+  def first_name_last_name_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:first_name, :last_name])
+    |> validate_required([:first_name, :last_name])
+  end
+
+  @doc """
   A user changeset for changing the password.
 
   ## Options

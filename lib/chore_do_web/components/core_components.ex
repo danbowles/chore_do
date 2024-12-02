@@ -204,11 +204,9 @@ defmodule ChoreDoWeb.CoreComponents do
   def simple_form(assigns) do
     ~H"""
     <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="mt-10 space-y-8">
-        <%= render_slot(@inner_block, f) %>
-        <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
-          <%= render_slot(action, f) %>
-        </div>
+      <%= render_slot(@inner_block, f) %>
+      <div :for={action <- @actions} class="mt-2 flex items-center justify-between gap-6">
+        <%= render_slot(action, f) %>
       </div>
     </.form>
     """
@@ -397,7 +395,7 @@ defmodule ChoreDoWeb.CoreComponents do
 
   def label(assigns) do
     ~H"""
-    <label for={@for} class="mb-2.5 block font-medium text-black">
+    <label for={@for} class="mb-3 block text-sm font-medium text-black">
       <%= render_slot(@inner_block) %>
     </label>
     """

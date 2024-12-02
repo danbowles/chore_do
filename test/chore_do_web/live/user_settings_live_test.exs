@@ -5,6 +5,14 @@ defmodule ChoreDoWeb.UserSettingsLiveTest do
   import Phoenix.LiveViewTest
   import ChoreDo.UsersFixtures
 
+  @valid_user_info %{
+    "first_name" => "Some FN",
+    "last_name" => "Some LN"
+  }
+  @invalid_user_info %{
+    "first_name" => "F",
+    "last_name" => nil
+  }
   describe "Settings page" do
     test "renders settings page", %{conn: conn} do
       {:ok, _lv, html} =
@@ -12,7 +20,8 @@ defmodule ChoreDoWeb.UserSettingsLiveTest do
         |> log_in_user(user_fixture())
         |> live(~p"/users/settings")
 
-      assert html =~ "Change Email"
+      assert html =~ "Update Information"
+      assert html =~ "Update Email"
       assert html =~ "Change Password"
     end
 
@@ -22,6 +31,29 @@ defmodule ChoreDoWeb.UserSettingsLiveTest do
       assert {:redirect, %{to: path, flash: flash}} = redirect
       assert path == ~p"/login"
       assert %{"error" => "You must log in to access this page."} = flash
+    end
+  end
+
+  describe "update information form" do
+    setup %{conn: conn} do
+      password = valid_user_password()
+      user = user_fixture(%{password: password})
+      %{conn: log_in_user(conn, user), user: user, password: password}
+    end
+
+    test "updates the user information", %{conn: conn} do
+      {:ok, lv, _html} = live(conn, ~p"/users/settings")
+
+      assert lv |> form("#info_form", %{"user" => @invalid_user_info}) |> render_change() =~
+               "can&#39;t be blank"
+
+      assert lv |> form("#info_form", %{"user" => @valid_user_info}) |> render_submit() =~
+               "Update Information"
+
+      html = render(lv)
+      assert html =~ "Account information updated."
+      assert html =~ "Some FN"
+      assert html =~ "Some LN"
     end
   end
 
@@ -61,7 +93,8 @@ defmodule ChoreDoWeb.UserSettingsLiveTest do
           "user" => %{"email" => "with spaces"}
         })
 
-      assert result =~ "Change Email"
+      assert result =~ "Update Information"
+      assert result =~ "Update Email"
       assert result =~ "must have the @ sign and no spaces"
     end
 
@@ -76,7 +109,8 @@ defmodule ChoreDoWeb.UserSettingsLiveTest do
         })
         |> render_submit()
 
-      assert result =~ "Change Email"
+      assert result =~ "Update Information"
+      assert result =~ "Update Email"
       assert result =~ "did not change"
       assert result =~ "is not valid"
     end

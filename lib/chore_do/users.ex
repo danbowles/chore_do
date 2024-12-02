@@ -96,6 +96,35 @@ defmodule ChoreDo.Users do
   ## Settings
 
   @doc """
+  Returns an `%Ecto.Changeset{}` for changing the user's first and last name.
+
+  ## Examples
+
+      iex> change_first_name_last_name(user)
+      %Ecto.Changeset{data: %User{}}
+  """
+  def change_first_name_last_name(user, attrs \\ %{}) do
+    User.first_name_last_name_changeset(user, attrs)
+  end
+
+  @doc """
+  Updates the user's first and last name.
+
+  ## Examples
+
+      iex> update_first_name_last_name(user, %{first_name: "John", last_name: "Doe"})
+      {:ok, %User{}}
+
+      iex> update_first_name_last_name(user, %{first_name: "John", last_name: ""})
+      {:error, %Ecto.Changeset{}}
+  """
+  def update_first_name_last_name(user, attrs) do
+    user
+    |> User.first_name_last_name_changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
   Returns an `%Ecto.Changeset{}` for changing the user email.
 
   ## Examples

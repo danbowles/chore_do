@@ -52,7 +52,7 @@
   <%!-- CONTENT --%>
   <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
     <%!-- HEADER CONTENT --%>
-    <header class="sticky top-0 z-999 flex w-full bg-white drop-shadow-1">
+    <header class="sticky top-0 z-1 flex w-full bg-white drop-shadow-1">
       <div class="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
         <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
           <button
@@ -77,9 +77,11 @@
               }
             >
               <span class="hidden text-right lg:block">
-                <span class="block text-sm font-medium text-black">
-                  Thomas Anree
-                </span>
+                <%= if @current_user do %>
+                  <span class="block text-sm font-medium text-black">
+                    <%= @current_user.first_name %> <%= @current_user.last_name %>
+                  </span>
+                <% end %>
                 <span class="block text-xs font-light">UX Designer</span>
               </span>
               <.icon name="hero-user-circle" class="w-8 h-8 block" />
@@ -96,7 +98,7 @@
                     href={~p"/users/settings"}
                     class="flex items-center gap-3.5 text-md font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
                   >
-                    <.icon name="hero-adjustments-horizontal" class="w-6 h-6" /> Settings
+                    <.icon name="hero-cog-6-tooth" class="w-6 h-6" /> Your Account
                   </.link>
                 </li>
                 <li>
@@ -116,9 +118,11 @@
     </header>
     <main>
       <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-        <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 b">
-          <%= @inner_content %>
-        </div>
+        <%!-- <pre class="block max-w-screen-xsm text-wrap">
+        <%= inspect(@current_user) %></pre> --%>
+        <%!-- <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 b"> --%>
+        <%= @inner_content %>
+        <%!-- </div> --%>
       </div>
     </main>
   </div>

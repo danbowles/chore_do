@@ -5,69 +5,121 @@ defmodule ChoreDoWeb.UserSettingsLive do
 
   def render(assigns) do
     ~H"""
-    <.header class="text-center">
-      Account Settings
-      <:subtitle>Manage your account email address and password settings</:subtitle>
-    </.header>
-
-    <div class="space-y-12 divide-y">
-      <div>
-        <.simple_form
-          for={@email_form}
-          id="email_form"
-          phx-submit="update_email"
-          phx-change="validate_email"
-        >
-          <.input field={@email_form[:email]} type="email" label="Email" required />
-          <.input
-            field={@email_form[:current_password]}
-            name="current_password"
-            id="current_password_for_email"
-            type="password"
-            label="Current password"
-            value={@email_form_current_password}
-            required
-          />
-          <:actions>
-            <.button phx-disable-with="Changing...">Change Email</.button>
-          </:actions>
-        </.simple_form>
+    <div class="mx-auto max-w-270">
+      <div class="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 class="text-title-md2 font-bold text-black">
+          Settings Page
+        </h2>
       </div>
-      <div>
-        <.simple_form
-          for={@password_form}
-          id="password_form"
-          action={~p"/login?_action=password_updated"}
-          method="post"
-          phx-change="validate_password"
-          phx-submit="update_password"
-          phx-trigger-action={@trigger_submit}
-        >
-          <input
-            name={@password_form[:email].name}
-            type="hidden"
-            id="hidden_user_email"
-            value={@current_email}
-          />
-          <.input field={@password_form[:password]} type="password" label="New password" required />
-          <.input
-            field={@password_form[:password_confirmation]}
-            type="password"
-            label="Confirm new password"
-          />
-          <.input
-            field={@password_form[:current_password]}
-            name="current_password"
-            type="password"
-            label="Current password"
-            id="current_password_for_password"
-            value={@current_password}
-            required
-          />
-          <:actions>
-            <.button phx-disable-with="Changing...">Change Password</.button>
-          </:actions>
-        </.simple_form>
+
+      <div class="grid grid-cols-5 gap-8">
+        <div class="col-span-5 xl:col-span-3">
+          <div class="rounded-sm border border-stroke bg-white shadow-default">
+            <div class="border-b border-stroke px-7 py-4">
+              <h3 class="font-medium text-black flex items-center gap-2">
+                <.icon name="hero-identification" class="h-5 w-5" /> Your Information
+              </h3>
+            </div>
+            <div class="p-7">
+              <.simple_form
+                for={@name_form}
+                id="info_form"
+                action={~p"/login?_action=info_updated"}
+                method="post"
+                phx-submit="update_name"
+                phx-change="validate_name"
+                phx-trigger-action={@trigger_submit}
+              >
+                <.input field={@name_form[:first_name]} label="First Name" required />
+                <.input field={@name_form[:last_name]} label="Last Name" required />
+                <:actions>
+                  <.button class="mt-3" phx-disable-with="Saving...">Update Information</.button>
+                </:actions>
+              </.simple_form>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-5 xl:col-span-3">
+          <div class="rounded-sm border border-stroke bg-white shadow-default">
+            <div class="border-b border-stroke px-7 py-4">
+              <h3 class="font-medium text-black flex items-center gap-2">
+                <.icon name="hero-envelope" class="h-5 w-5" /> Update Your Email
+              </h3>
+            </div>
+            <div class="p-7">
+              <.simple_form
+                for={@email_form}
+                id="email_form"
+                phx-submit="update_email"
+                phx-change="validate_email"
+              >
+                <.input field={@email_form[:email]} type="email" label="Email" required />
+                <.input
+                  field={@email_form[:current_password]}
+                  name="current_password"
+                  id="current_password_for_email"
+                  type="password"
+                  label="Current password"
+                  value={@email_form_current_password}
+                  required
+                />
+                <:actions>
+                  <.button class="mt-3" phx-disable-with="Saving...">Update Email</.button>
+                </:actions>
+              </.simple_form>
+            </div>
+          </div>
+        </div>
+        <div class="col-span-5 xl:col-span-3">
+          <div class="rounded-sm border border-stroke bg-white shadow-default">
+            <div class="border-b border-stroke px-7 py-4">
+              <h3 class="font-medium text-black flex items-center gap-2">
+                <.icon name="hero-lock-closed" class="h-5 w-5" /> Update Your Password
+              </h3>
+            </div>
+            <div class="p-7">
+              <.simple_form
+                for={@password_form}
+                id="password_form"
+                action={~p"/login?_action=password_updated"}
+                method="post"
+                phx-change="validate_password"
+                phx-submit="update_password"
+                phx-trigger-action={@trigger_submit}
+              >
+                <input
+                  name={@password_form[:email].name}
+                  type="hidden"
+                  id="hidden_user_email"
+                  value={@current_email}
+                />
+                <.input
+                  field={@password_form[:password]}
+                  type="password"
+                  label="New password"
+                  required
+                />
+                <.input
+                  field={@password_form[:password_confirmation]}
+                  type="password"
+                  label="Confirm new password"
+                />
+                <.input
+                  field={@password_form[:current_password]}
+                  name="current_password"
+                  type="password"
+                  label="Current password"
+                  id="current_password_for_password"
+                  value={@current_password}
+                  required
+                />
+                <:actions>
+                  <.button phx-disable-with="Changing...">Change Password</.button>
+                </:actions>
+              </.simple_form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     """
@@ -88,6 +140,7 @@ defmodule ChoreDoWeb.UserSettingsLive do
 
   def mount(_params, _session, socket) do
     user = socket.assigns.current_user
+    name_changeset = Users.change_first_name_last_name(user)
     email_changeset = Users.change_user_email(user)
     password_changeset = Users.change_user_password(user)
 
@@ -97,6 +150,7 @@ defmodule ChoreDoWeb.UserSettingsLive do
       |> assign(:email_form_current_password, nil)
       |> assign(:current_email, user.email)
       |> assign(:email_form, to_form(email_changeset))
+      |> assign(:name_form, to_form(name_changeset))
       |> assign(:password_form, to_form(password_changeset))
       |> assign(:trigger_submit, false)
 
@@ -113,6 +167,39 @@ defmodule ChoreDoWeb.UserSettingsLive do
       |> to_form()
 
     {:noreply, assign(socket, email_form: email_form, email_form_current_password: password)}
+  end
+
+  def handle_event("validate_name", params, socket) do
+    %{"user" => user_params} = params
+
+    name_form =
+      socket.assigns.current_user
+      |> Users.change_first_name_last_name(user_params)
+      |> Map.put(:action, :validate)
+      |> to_form()
+
+    {:noreply, socket |> assign(name_form: name_form)}
+  end
+
+  def handle_event("update_name", params, socket) do
+    %{"user" => user_params} = params
+    user = socket.assigns.current_user
+
+    case Users.update_first_name_last_name(user, user_params) do
+      {:ok, user} ->
+        name_form =
+          user
+          |> Users.change_first_name_last_name(user_params)
+          |> to_form()
+
+        {:noreply,
+         socket
+         |> assign(trigger_submit: false, name_form: name_form)
+         |> put_flash(:info, "Account information updated.")}
+
+      {:error, changeset} ->
+        {:noreply, assign(socket, name_form: to_form(changeset))}
+    end
   end
 
   def handle_event("update_email", params, socket) do

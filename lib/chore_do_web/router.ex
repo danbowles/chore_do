@@ -78,7 +78,7 @@ defmodule ChoreDoWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
-      on_mount: [{ChoreDoWeb.UserAuth, :ensure_authenticated}] do
+      on_mount: [{ChoreDoWeb.UserAuth, :ensure_authenticated}, ChoreDoWeb.Plugs.CurrentPage] do
       live "/", DashboardLive, :index
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email

@@ -105,7 +105,7 @@ defmodule ChoreDoWeb.Router do
     delete "/logout", UserSessionController, :delete
 
     live_session :current_user,
-      on_mount: [{ChoreDoWeb.UserAuth, :mount_current_user}] do
+      on_mount: [{ChoreDoWeb.UserAuth, :mount_current_user}, ChoreDoWeb.Plugs.CurrentPage] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
     end

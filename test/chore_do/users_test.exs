@@ -4,6 +4,7 @@ defmodule ChoreDo.UsersTest do
   alias ChoreDo.Users
 
   import ChoreDo.UsersFixtures
+  import ChoreDo.HouseholdsFixtures
   alias ChoreDo.Users.{User, UserToken}
 
   describe "get_user_by_email/1" do
@@ -350,6 +351,22 @@ defmodule ChoreDo.UsersTest do
     test "does not return user for expired token", %{token: token} do
       {1, nil} = Repo.update_all(UserToken, set: [inserted_at: ~N[2020-01-01 00:00:00]])
       refute Users.get_user_by_session_token(token)
+    end
+
+    test "user's member property should be nil if not in household", %{token: token} do
+      assert session_user = Users.get_user_by_session_token(token)
+      assert is_nil(session_user.member)
+    end
+
+    test "user's member property should exist and not be nil if user is in a household", %{
+      user: user,
+      token: token
+    } do
+      household = household_fixture()
+      _member = member_fixture(user, household)
+      assert session_user = Users.get_user_by_session_token(token)
+      assert !is_nil(session_user.member)
+      assert session_user.member.user_id == user.id
     end
   end
 

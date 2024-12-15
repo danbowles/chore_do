@@ -10,8 +10,8 @@ defmodule ChoreDo.Users.User do
     field :confirmed_at, :utc_datetime
     field :first_name, :string
     field :last_name, :string
-    has_many :members, ChoreDo.Households.Member
-    has_many :households, through: [:members, :household]
+    has_one :member, ChoreDo.Households.Member
+    has_one :household, through: [:member, :household]
 
     timestamps(type: :utc_datetime)
   end

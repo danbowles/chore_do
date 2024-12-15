@@ -260,7 +260,8 @@ defmodule ChoreDo.Users do
   """
   def get_user_by_session_token(token) do
     {:ok, query} = UserToken.verify_session_token_query(token)
-    Repo.one(query)
+    # We will likely always want the member for this user when they log in
+    Repo.one(query) |> Repo.preload(:member)
   end
 
   @doc """

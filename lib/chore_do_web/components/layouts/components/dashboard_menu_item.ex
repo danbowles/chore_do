@@ -6,6 +6,7 @@ defmodule ChoreDoWeb.Components.Layouts.DashboardMenuItem do
   import ChoreDoWeb.CoreComponents
 
   attr :icon_name, :string, default: nil
+  attr :active, :boolean, default: false
   attr :rest, :global, include: ~w(href method navigate)
 
   slot :inner_block
@@ -16,7 +17,11 @@ defmodule ChoreDoWeb.Components.Layouts.DashboardMenuItem do
     <li>
       <.link
         {@rest}
-        class="group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150"
+        class={[
+          "group relative flex items-center gap-2.5 rounded-lg px-4 py-2 font-medium hover:bg-slate-900 duration-150",
+          @active && "bg-slate-900 text-white",
+          !@active && "text-slate-300"
+        ]}
       >
         <%= if @icon_name do %>
           <.icon name={@icon_name} class="h-5 w-5" />

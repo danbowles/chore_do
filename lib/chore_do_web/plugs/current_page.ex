@@ -12,20 +12,18 @@ defmodule ChoreDoWeb.Plugs.CurrentPage do
   end
 
   defp set_current_page(_params, _url, socket) do
-    IO.inspect(Module.split(ChoreDoWeb.DashboardLive))
-
     current_page =
-      socket.view
-      |> Module.split()
-      |> Enum.slice(-1..-1)
-      |> maybe_remove_live()
-      |> Enum.join("_")
-      |> String.downcase()
+      case socket.view do
+        ChoreDoWeb.DashboardLive ->
+          :dashboard
+
+        ChoreDoWeb.UserSettingsLive ->
+          :user_settings
+
+        _ ->
+          nil
+      end
 
     {:cont, assign(socket, current_page: current_page)}
   end
-
-  ## When "Live" is the first item on the list, remove it.
-  defp maybe_remove_live(["Live" | rest]), do: rest
-  defp maybe_remove_live(list), do: list
 end

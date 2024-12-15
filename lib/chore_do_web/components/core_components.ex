@@ -117,21 +117,35 @@ defmodule ChoreDoWeb.CoreComponents do
       phx-click={JS.push("lv:clear-flash", value: %{key: @kind}) |> hide("##{@id}")}
       role="alert"
       class={[
-        "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
-        @kind == :info && "bg-emerald-50 text-emerald-800 ring-emerald-500 fill-cyan-900",
-        @kind == :error && "bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
+        "fixed top-2 right-2 mr-2 sm:w-96 z-50 ring-1 border-l-6 px-3 py-4 shadow-md",
+        @kind == :info &&
+          "border-emerald-500 bg-emerald-50  ring-emerald-500 fill-cyan-900",
+        @kind == :error &&
+          "border-rose-500 bg-rose-50 text-rose-900 shadow-md ring-rose-500 fill-rose-900"
       ]}
       {@rest}
     >
-      <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
-        <.icon :if={@kind == :info} name="hero-information-circle-mini" class="h-4 w-4" />
-        <.icon :if={@kind == :error} name="hero-exclamation-circle-mini" class="h-4 w-4" />
-        <%= @title %>
-      </p>
-      <p class="mt-2 text-sm leading-5"><%= msg %></p>
-      <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
-        <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
-      </button>
+      <div class="flex w-full">
+        <div class={[
+          "mr-5 flex h-7 w-full max-w-7 items-center justify-center rounded-lg",
+          @kind == :error && "bg-rose-500",
+          @kind == :info && "bg-emerald-500"
+        ]}>
+          <.icon :if={@kind == :info} name="hero-check-solid" class="h-4 w-4 text-white" />
+          <.icon :if={@kind == :error} name="hero-x-mark-solid" class="h-4 w-4 text-white" />
+        </div>
+        <div class="w-full">
+          <h5 :if={@title} class="mb-3 text-lg font-bold text-black">
+            <%= @title %>
+          </h5>
+          <p class="text-base leading-relaxed text-body">
+            <%= msg %>
+          </p>
+        </div>
+        <button type="button" class="group absolute top-1 right-1 p-2" aria-label={gettext("close")}>
+          <.icon name="hero-x-mark-solid" class="h-5 w-5 opacity-40 group-hover:opacity-70" />
+        </button>
+      </div>
     </div>
     """
   end
@@ -149,8 +163,8 @@ defmodule ChoreDoWeb.CoreComponents do
   def flash_group(assigns) do
     ~H"""
     <div id={@id}>
-      <.flash kind={:info} title={gettext("Success!")} flash={@flash} />
-      <.flash kind={:error} title={gettext("Error!")} flash={@flash} />
+      <.flash kind={:info} title={gettext("Action Succeeded")} flash={@flash} />
+      <.flash kind={:error} title={gettext("Issue Encountered")} flash={@flash} />
       <.flash
         id="client-error"
         kind={:error}

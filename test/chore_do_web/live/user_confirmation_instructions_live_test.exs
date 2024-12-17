@@ -3,6 +3,7 @@ defmodule ChoreDoWeb.UserConfirmationInstructionsLiveTest do
 
   import Phoenix.LiveViewTest
   import ChoreDo.UsersFixtures
+  import Ecto.Query
 
   alias ChoreDo.Users
   alias ChoreDo.Repo
@@ -13,12 +14,19 @@ defmodule ChoreDoWeb.UserConfirmationInstructionsLiveTest do
 
   describe "Resend confirmation" do
     test "renders the resend confirmation page", %{conn: conn} do
-      {:ok, _lv, html} = live(conn, ~p"/users/confirm")
+      {:ok, _lv, html} =
+        conn
+        |> log_in_user(user_fixture())
+        |> live(~p"/users/confirm")
+
       assert html =~ "Resend confirmation instructions"
     end
 
     test "sends a new confirmation token", %{conn: conn, user: user} do
-      {:ok, lv, _html} = live(conn, ~p"/users/confirm")
+      {:ok, lv, _html} =
+        conn
+        |> log_in_user(user)
+        |> live(~p"/users/confirm")
 
       {:ok, conn} =
         lv
@@ -29,13 +37,17 @@ defmodule ChoreDoWeb.UserConfirmationInstructionsLiveTest do
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
                "If your email is in our system"
 
-      assert Repo.get_by!(Users.UserToken, user_id: user.id).context == "confirm"
+      assert Repo.get_by!(Users.UserToken, user_id: user.id, context: "confirm").context ==
+               "confirm"
     end
 
     test "does not send confirmation token if user is confirmed", %{conn: conn, user: user} do
       Repo.update!(Users.User.confirm_changeset(user))
 
-      {:ok, lv, _html} = live(conn, ~p"/users/confirm")
+      {:ok, lv, _html} =
+        conn
+        |> log_in_user(user)
+        |> live(~p"/users/confirm")
 
       {:ok, conn} =
         lv
@@ -46,11 +58,14 @@ defmodule ChoreDoWeb.UserConfirmationInstructionsLiveTest do
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
                "If your email is in our system"
 
-      refute Repo.get_by(Users.UserToken, user_id: user.id)
+      refute Repo.get_by(Users.UserToken, user_id: user.id, context: "confirm")
     end
 
-    test "does not send confirmation token if email is invalid", %{conn: conn} do
-      {:ok, lv, _html} = live(conn, ~p"/users/confirm")
+    test "does not send confirmation token if email is invalid", %{conn: conn, user: user} do
+      {:ok, lv, _html} =
+        conn
+        |> log_in_user(user)
+        |> live(~p"/users/confirm")
 
       {:ok, conn} =
         lv
@@ -61,7 +76,9 @@ defmodule ChoreDoWeb.UserConfirmationInstructionsLiveTest do
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
                "If your email is in our system"
 
-      assert Repo.all(Users.UserToken) == []
+      # q = from u in Users.UserToken, where: context == "confirm"
+
+      assert from(ut in Users.UserToken, where: ut.context == "confirm") |> Repo.all() == []
     end
   end
 end

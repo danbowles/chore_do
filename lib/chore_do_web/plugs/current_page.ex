@@ -14,8 +14,11 @@ defmodule ChoreDoWeb.Plugs.CurrentPage do
   defp set_current_page(_params, _url, socket) do
     current_page =
       case socket.view do
-        ChoreDoWeb.DashboardLive ->
-          :dashboard
+        ChoreDoWeb.MyHouseholdLive ->
+          :household
+
+        ChoreDoWeb.MyChoresLive ->
+          :chores
 
         ChoreDoWeb.UserSettingsLive ->
           :user_settings

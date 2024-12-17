@@ -80,22 +80,11 @@ defmodule ChoreDoWeb.Router do
     live_session :require_authenticated_user,
       on_mount: [{ChoreDoWeb.UserAuth, :ensure_authenticated}, ChoreDoWeb.Plugs.CurrentPage] do
       live "/", DashboardLive, :index
+      live "/household", MyHouseholdLive, :index
+      live "/chores", MyChoresLive, :index
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
-
-      # live "/households", HouseholdLive.Index, :index
-      # live "/households/new", HouseholdLive.Index, :new
-      # live "/households/:id/edit", HouseholdLive.Index, :edit
-
-      # live "/households/:id", HouseholdLive.Show, :show
-      # live "/households/:id/show/edit", HouseholdLive.Show, :edit
-
-      # live "/members", MemberLive.Index, :index
-      # live "/members/new", MemberLive.Index, :new
-      # live "/members/:id/edit", MemberLive.Index, :edit
-
-      # live "/members/:id", MemberLive.Show, :show
-      # live "/members/:id/show/edit", MemberLive.Show, :edit
+      live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 
@@ -105,9 +94,9 @@ defmodule ChoreDoWeb.Router do
     delete "/logout", UserSessionController, :delete
 
     live_session :current_user,
+      layout: {ChoreDoWeb.Layouts, :user_auth},
       on_mount: [{ChoreDoWeb.UserAuth, :mount_current_user}, ChoreDoWeb.Plugs.CurrentPage] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
-      live "/users/confirm", UserConfirmationInstructionsLive, :new
     end
   end
 end

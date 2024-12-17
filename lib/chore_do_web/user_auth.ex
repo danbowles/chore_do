@@ -225,5 +225,6 @@ defmodule ChoreDoWeb.UserAuth do
 
   defp maybe_store_return_to(conn), do: conn
 
+  # TODO: Should send them to /household to handle redirection there.
   defp signed_in_path(_conn), do: ~p"/"
 end

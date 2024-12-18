@@ -10,8 +10,11 @@ defmodule ChoreDoWeb.MyHouseholdLive do
 
   def render(assigns) do
     ~H"""
-    <h1>My Household</h1>
-    <p>Welcome to your household!</p>
+    <%= if @household do %>
+      <p>You are a member of the household: <%= @household.name %></p>
+    <% else %>
+      <p>Get started by create a new household!</p>
+    <% end %>
     """
   end
 end

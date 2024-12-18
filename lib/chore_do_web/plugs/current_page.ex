@@ -5,7 +5,6 @@ defmodule ChoreDoWeb.Plugs.CurrentPage do
   @moduledoc """
   This plug is used to set the current page in the session.
   """
-  import Phoenix.LiveView
 
   def on_mount(:default, _params, _session, socket) do
     {:cont, attach_hook(socket, :current_page, :handle_params, &set_current_page/3)}

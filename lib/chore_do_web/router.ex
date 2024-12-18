@@ -78,7 +78,11 @@ defmodule ChoreDoWeb.Router do
     pipe_through [:browser, :require_authenticated_user]
 
     live_session :require_authenticated_user,
-      on_mount: [{ChoreDoWeb.UserAuth, :ensure_authenticated}, ChoreDoWeb.Plugs.CurrentPage] do
+      on_mount: [
+        {ChoreDoWeb.UserAuth, :ensure_authenticated},
+        {ChoreDoWeb.Plugs.HouseholdPlug, :mount_household},
+        ChoreDoWeb.Plugs.CurrentPage
+      ] do
       live "/", DashboardLive, :index
       live "/household", MyHouseholdLive, :index
       live "/chores", MyChoresLive, :index

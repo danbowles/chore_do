@@ -83,6 +83,11 @@
             <img src={~p"/images/chore-do.svg"} alt="ChoreDo Logo" class="h-12 w-12" />
           </.link>
         </div>
+        <%= if @household do %>
+          <div class="ml-3 lg:m-0">
+            <span class="text-xl font-bold text-black"><%= @household.name %></span>
+          </div>
+        <% end %>
         <div class="flex items-center gap-3 2xsm:gap-7 ml-auto">
           <%!-- User area --%>
           <div class="relative">
@@ -100,7 +105,9 @@
                     <%= @current_user.first_name %> <%= @current_user.last_name %>
                   </span>
                 <% end %>
-                <span class="block text-xs font-light">UX Designer</span>
+                <%= if @current_user.member do %>
+                  <span class="block text-xs font-light"><%= @current_user.member.role %></span>
+                <% end %>
               </span>
               <.icon name="hero-user-circle" class="w-8 h-8 block" />
               <.icon
@@ -136,11 +143,7 @@
     </header>
     <main>
       <div class="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
-        <%!-- <pre class="block max-w-screen-xsm text-wrap">
-        <%= inspect(@current_user) %></pre> --%>
-        <%!-- <div class="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5 b"> --%>
         <%= @inner_content %>
-        <%!-- </div> --%>
       </div>
     </main>
   </div>

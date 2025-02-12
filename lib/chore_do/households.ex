@@ -27,6 +27,12 @@ defmodule ChoreDo.Households do
     |> Repo.one()
   end
 
+  def get_household_members(user) do
+    Household.Query.with_user(user)
+    |> Household.Query.with_members()
+    |> Repo.all()
+  end
+
   @doc """
   Creates a member, adds to household
 

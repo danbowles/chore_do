@@ -85,6 +85,7 @@ defmodule ChoreDoWeb.Router do
       ] do
       live "/", DashboardLive, :index
       live "/household", MyHouseholdLive, :index
+      live "/household/new", MyHouseholdLive, :new
       live "/chores", MyChoresLive, :index
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email

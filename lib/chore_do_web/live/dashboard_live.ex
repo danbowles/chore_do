@@ -1,41 +1,20 @@
 defmodule ChoreDoWeb.DashboardLive do
   use ChoreDoWeb, :live_view
 
+  # If a user is not a member of a household, redirect them to the household page to possibly create a new household
   def mount(_params, _session, %{assigns: %{current_user: %{member: nil}}} = socket) do
     {:ok, redirect(socket, to: "/household", status: 301)}
   end
 
+  # If a user is an admin, redirect them to the household page
   def mount(_params, _session, %{assigns: %{current_user: %{member: member}}} = socket)
       when member.role == :admin do
     {:ok, redirect(socket, to: "/household", status: 301)}
   end
 
+  # If a user is a member, redirect them to the chores page
   def mount(_params, _session, %{assigns: %{current_user: %{member: member}}} = socket)
       when member.role == :member do
     {:ok, redirect(socket, to: "/chores", status: 301)}
   end
-
-  #   def render(assigns) do
-  #     ~H"""
-  #     <%!-- Render Empty State as Static --%>
-  #     <h1>Dashboard</h1>
-  #     <p>Welcome to ChoreDo!</p>
-  #     <div class="mt-12 flex gap-2">
-  #       <.button phx-click="put-success">Put Success Flash</.button>
-  #       <.button phx-click="put-error">Put Error Flash</.button>
-  #     </div>
-  #     """
-  #   end
-
-  #   def handle_event("put-success", _params, socket) do
-  #     {:noreply,
-  #      socket
-  #      |> put_flash(:info, "User confirmed successfully.")}
-  #   end
-
-  #   def handle_event("put-error", _params, socket) do
-  #     {:noreply,
-  #      socket
-  #      |> put_flash(:error, "User could not be confirmed.")}
-  #   end
 end

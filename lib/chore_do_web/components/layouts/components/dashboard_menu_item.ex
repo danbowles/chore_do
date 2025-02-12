@@ -1,4 +1,3 @@
-# credo:disable-for-this-file Credo.Check.Readability.Specs
 defmodule ChoreDoWeb.Components.Layouts.DashboardMenuItem do
   @moduledoc false
   use ChoreDoWeb, :html
@@ -12,7 +11,6 @@ defmodule ChoreDoWeb.Components.Layouts.DashboardMenuItem do
   slot :inner_block
 
   def dashboard_menu_item(assigns) do
-    # TODO: Active state
     ~H"""
     <li>
       <.link
